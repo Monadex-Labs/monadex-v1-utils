@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "bungcip.better-toml",
+        "NomicFoundation.hardhat-solidity"
+    ]
+}
