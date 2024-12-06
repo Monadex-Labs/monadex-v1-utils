@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.20;
+pragma solidity 0.8.24;
 
 import { MonadexV1Multicall } from "../src/MonadexV1Multicall.sol";
 import { Script } from "forge-std/Script.sol";
