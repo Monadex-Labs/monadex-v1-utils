@@ -1,41 +1,97 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.20;
+pragma solidity 0.8.24;
+// pragma experimental ABIEncoderV2;
 
-contract MonadexV1Multicall {
-    struct Call {
-        address target;
-        uint256 gasLimit;
-        bytes callData;
-    }
+import { IMonadexV1Multicall } from "./interfaces/IMonadexV1Multicall.sol";
 
-    struct Result {
-        bool success;
-        uint256 gasUsed;
-        bytes returnData;
-    }
-
-    function getCurrentBlockTimestamp() public view returns (uint256 timestamp) {
-        timestamp = block.timestamp;
-    }
-
-    function getEthBalance(address _addr) public view returns (uint256 balance) {
-        balance = _addr.balance;
-    }
-
-    function multicall(Call[] memory _calls)
-        public
-        returns (uint256 blockNumber, Result[] memory returnData)
-    {
-        blockNumber = block.number;
-        returnData = new Result[](_calls.length);
+/// @title MonadexV1Multicall.
+/// @author Monadex Labs -- mgnfy-view.
+/// @notice Aggregate results from multiple read-only function calls. Inspired
+/// by Makerdao's multicall2 contract.
+contract MonadexV1Multicall is IMonadexV1Multicall {
+    function aggregate(Call[] memory _calls) external returns (uint256, bytes[] memory) {
+        uint256 blockNumber = block.number;
+        bytes[] memory returnData = new bytes[](_calls.length);
 
         for (uint256 i = 0; i < _calls.length; i++) {
-            (address target, uint256 gasLimit, bytes memory callData) =
-                (_calls[i].target, _calls[i].gasLimit, _calls[i].callData);
-            uint256 gasLeftBefore = gasleft();
-            (bool success, bytes memory ret) = target.call{ gas: gasLimit }(callData);
-            uint256 gasUsed = gasLeftBefore - gasleft();
-            returnData[i] = Result(success, gasUsed, ret);
+            (bool success, bytes memory ret) = _calls[i].target.call(_calls[i].callData);
+            if (!success) revert MonadexV1Multicall__CallFailed();
+            returnData[i] = ret;
         }
+
+        return (blockNumber, returnData);
+    }
+
+    function blockAndAggregate(
+        Call[] memory _calls
+    )
+        external
+        returns (uint256, bytes32, Result[] memory)
+    {
+        return tryBlockAndAggregate(true, _calls);
+    }
+
+    function tryAggregate(
+        bool _requireSuccess,
+        Call[] memory _calls
+    )
+        public
+        returns (Result[] memory)
+    {
+        Result[] memory returnData = new Result[](_calls.length);
+
+        for (uint256 i = 0; i < _calls.length; i++) {
+            (bool success, bytes memory ret) = _calls[i].target.call(_calls[i].callData);
+
+            if (_requireSuccess) {
+                if (!success) revert MonadexV1Multicall__CallFailed();
+            }
+
+            returnData[i] = Result(success, ret);
+        }
+
+        return returnData;
+    }
+
+    function tryBlockAndAggregate(
+        bool _requireSuccess,
+        Call[] memory _calls
+    )
+        public
+        returns (uint256, bytes32, Result[] memory)
+    {
+        return (block.number, blockhash(block.number), tryAggregate(_requireSuccess, _calls));
+    }
+
+    function getBlockHash(uint256 _blockNumber) external view returns (bytes32) {
+        return blockhash(_blockNumber);
+    }
+
+    function getBlockNumber() external view returns (uint256) {
+        return block.number;
+    }
+
+    function getCurrentBlockCoinbase() external view returns (address) {
+        return block.coinbase;
+    }
+
+    function getCurrentBlockDifficulty() external view returns (uint256) {
+        return block.prevrandao;
+    }
+
+    function getCurrentBlockGasLimit() external view returns (uint256) {
+        return block.gaslimit;
+    }
+
+    function getCurrentBlockTimestamp() external view returns (uint256) {
+        return block.timestamp;
+    }
+
+    function getEthBalance(address _addr) external view returns (uint256) {
+        return _addr.balance;
+    }
+
+    function getLastBlockHash() external view returns (bytes32) {
+        return blockhash(block.number - 1);
     }
 }

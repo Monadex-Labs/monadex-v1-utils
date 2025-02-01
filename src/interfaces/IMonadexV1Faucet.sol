@@ -25,4 +25,21 @@ interface IMonadexV1Faucet {
     error IMonadexV1Faucet__InvalidFaucet();
     error IMonadexV1Faucet__NotEligibleToCollectFromFaucet();
     error IMonadexV1Faucet__InvalidFaucetUpdateParams();
+
+    function createFaucet(FaucetDetails memory _faucetDetails) external;
+
+    function collectTokensFromFaucet(address _token, address _to) external;
+
+    function updateFaucet(
+        address _token,
+        uint256 _interval,
+        uint256 _amountToEmitAtEachInterval
+    )
+        external;
+
+    function getFaucetDetails(address _token) external view returns (FaucetDetails memory);
+
+    function getAllTokens() external view returns (address[] memory);
+
+    function isEligibleToCollect(address _user, address _token) external view returns (bool);
 }
