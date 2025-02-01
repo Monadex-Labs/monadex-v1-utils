@@ -2,7 +2,7 @@
 pragma solidity 0.8.24;
 // pragma experimental ABIEncoderV2;
 
-import { IMonadexV1Multicall } from "./interfaces/IMonadexV1Multicall.sol";
+import { IMonadexV1Multicall } from "../interfaces/IMonadexV1Multicall.sol";
 
 /// @title MonadexV1Multicall.
 /// @author Monadex Labs -- mgnfy-view.
