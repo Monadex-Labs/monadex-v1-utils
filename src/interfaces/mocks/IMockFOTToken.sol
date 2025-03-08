@@ -8,4 +8,5 @@ interface IMockFOTToken {
 
     function setFee(uint256 _newFee) external;
     function getFee() external view returns (uint256);
+    function mint(address _to, uint256 _amount) external;
 }

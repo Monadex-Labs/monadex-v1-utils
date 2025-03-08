@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity ^0.8.25;
 
 import { Script } from "forge-std/Script.sol";
 
-import { IMonadexV1Faucet } from "@src/interfaces/IMonadexV1Faucet.sol";
+import { IMonadexV1Faucet } from "@src/interfaces/faucet/IMonadexV1Faucet.sol";
 
 import { MonadexV1Faucet } from "@src/faucet/MonadexV1Faucet.sol";
 

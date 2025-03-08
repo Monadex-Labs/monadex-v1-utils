@@ -44,6 +44,13 @@ contract MockFOTToken is ERC20, Ownable, IMockFOTToken {
         emit FeeSet(_newFee);
     }
 
+    /// @notice Allows the admin to mint tokens to an arbitrary address.
+    /// @param _to The address to mint tokens to.
+    /// @param _amount The amount of tokens to mint.
+    function mint(address _to, uint256 _amount) external onlyOwner {
+        _mint(_to, _amount);
+    }
+
     function _update(address _from, address _to, uint256 _value) internal override {
         uint256 feeAmount = _getFeeAmount(_value);
 

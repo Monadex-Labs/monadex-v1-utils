@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity ^0.8.25;
 
 import { Script } from "forge-std/Script.sol";
 
@@ -12,7 +12,7 @@ contract DeployWrappedMonad is Script {
 
     MockFOTToken public fotToken;
 
-    function setUp() {
+    function setUp() public {
         name = "Riptide";
         symbol = "RPT";
         fee = 1_000;
