@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
-// pragma experimental ABIEncoderV2;
+pragma solidity ^0.8.25;
 
-import { IMonadexV1Multicall } from "../interfaces/IMonadexV1Multicall.sol";
+import { IMonadexV1Multicall } from "@src/interfaces/multicall/IMonadexV1Multicall.sol";
 
 /// @title MonadexV1Multicall.
 /// @author Monadex Labs -- mgnfy-view.

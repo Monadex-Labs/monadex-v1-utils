@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity ^0.8.25;
 
 import { Ownable } from "@openzeppelin/access/Ownable.sol";
 import { ERC20 } from "@openzeppelin/token/ERC20/ERC20.sol";
 
-import { IERC20MintableAndUri } from "../interfaces/IERC20MintableAndUri.sol";
+import { IERC20MintableAndUri } from "@src/interfaces/faucet/IERC20MintableAndUri.sol";
 
 /// @title ERC20MintableAndUri.
 /// @author Monadex Labs -- mgnfy-view.

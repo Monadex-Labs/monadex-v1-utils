@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity ^0.8.25;
 
 import { AccessControl } from "@openzeppelin/access/AccessControl.sol";
 
-import { IERC20MintableAndUri } from "../interfaces/IERC20MintableAndUri.sol";
-import { IMonadexV1Faucet } from "../interfaces/IMonadexV1Faucet.sol";
+import { IERC20MintableAndUri } from "@src/interfaces/faucet/IERC20MintableAndUri.sol";
+import { IMonadexV1Faucet } from "@src/interfaces/faucet/IMonadexV1Faucet.sol";
 
-import { ERC20MintableAndUri } from "./ERC20MintableAndUri.sol";
+import { ERC20MintableAndUri } from "@src/faucet/ERC20MintableAndUri.sol";
 
 /// @title MonadexV1Faucet.
 /// @author Monadex Labs -- mgnfy-view.

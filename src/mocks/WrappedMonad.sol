@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity ^0.8.25;
 
-import { IWrappedMonad } from "../interfaces/IWrappedMonad.sol";
+import { IWrappedMonad } from "@src/interfaces/mocks/IWrappedMonad.sol";
 
 /// @title WrappedMonad.
 /// @author Monadex Labs -- mgnfy-view.
